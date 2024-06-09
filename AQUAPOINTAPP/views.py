@@ -48,12 +48,11 @@ def newPoint(request):
 def fetch_and_store_data():
     try:
         # Reference to the Firebase Realtime Database
-        # ref = db.reference('/flowRate')
+        ref = db.reference('/flowRate')
 
-        # # Fetch the latest posted data
-        # latest_data = ref.order_by_key().limit_to_last(1).get()
+        # Fetch the latest posted data
         water_points = Table1.objects.values_list('Coordinates', flat=True)
-        sensorData = 10
+        sensorData = ref.order_by_key().limit_to_last(1).get()
         # water_points = ['point1', 'point2', 'point3', 'point4', 'point5']  # Add more points as needed
         for point in water_points:
                 unique_flow = sensorData * (1 + random.uniform(-0.05, 0.05))  # Adding a small random variation

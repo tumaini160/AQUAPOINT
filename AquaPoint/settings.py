@@ -87,11 +87,14 @@ WSGI_APPLICATION = 'AquaPoint.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'AQUAPOINT',
-        'USER': 'postgres',
-        'PASSWORD': '2402',
-        'HOST': 'localhost',
+        'NAME': 'Aquapoint',
+        'USER': 'Aquapoint_owner',
+        'PASSWORD': 'NA8XFpPKne9m',
+        'HOST': 'ep-lively-limit-a6lrdm3x.us-west-2.aws.neon.tech',
         'PORT': '5432',
+        'OPTIONS': {
+            'sslmode':'require',
+        }
     }
 }
 # DATABASE_URL="postgres://postgres.ansoalqopvuqsvmwejor:[Tum@ini2402]@aws-0-us-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
