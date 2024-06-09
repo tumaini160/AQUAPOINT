@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AQUAPOINT - Graph</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Custom styles */
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    .nav-link {
+      color: #0074D9 !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+    }
+    
+    .nav-link:hover {
+      color: #000066 !important;
+    }
+    .nav-link.active {
+      color: #2ECC40 !important;
+    }
+    .navbar-brand {
+      color: #0074D9 !important;
+      font-weight: bold !important;
+      text-transform: uppercase !important;
+    }
+    
+    .navbar-brand:hover {
+      color: #000066 !important;
+    }
+     
+  .table-responsive table{
+    {% comment %} max-width: fit-content; {% endcomment %}
+    border-collapse: collapse;
+  }
+  .caption{
+    font-size: .8rem;
+    font-weight: 700;
+    margin: 8px 0px;
+    text-transform: uppercase;
+    margin: 16px;
+    text-align: center;
+    color: var(--secondaryColor);
+  }
+  .topHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:20px;
+  }
+  .topHeader h5{
+    font-size: .8rem;
+    font-weight: 700;
+    margin: 8px 0px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .table-responsive th{
+    padding: 20px 16px;
+    font-size: 0.7rem;
+    color:var(--gray);
+    text-transform: uppercase;
+  }
+  .table-responsive thead{
+    border-top: 2px solid var(--gray-background);
+  }
+  .table-responsive td{
+    padding: 8px 16px;
+    vertical-align: middle;
+    font-family: 'Roboto';
+    font-size: .65rem;
+    text-transform: uppercase;
+  }
+  .table-responsive tbody tr{
+    cursor: pointer;
+  }
+  .table-responsive tbody tr:hover{
+    background-color:#e2ecff;
+  }
+  .heading h4{
+    text-transform:uppercase;
+    color:#2ECC40 !important;
+    text-decoration-line: underline;
+}
+.heading{
+    margin:10px;
+    width: 100%;
+    text-align: center;
+}
+.centered-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
+}
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">AQUAPOINT</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'index' %}">home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'table1' %}">data table-1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'table2' %}">data table-2</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'map' %}">map</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="centered-content">
+    <div class="container">
+      <div class="heading">
+        <h4>FlowRate Trends Over Time for Various Water Points</h4>
+      </div>
+      <!-- graph Section 1 -->
+      <canvas id="flowRateChart" class="graph-container"></canvas>
+    </div>
+  </div>
+ 
+
+  {% comment %}  {% endcomment %}
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Sample data for demonstration
+    const flowRateData = {
+      labels: ['1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00'],
+      datasets: [{
+        label: 'Location A',
+        data: [10, 15, 20, 25, 30, 35, 40],
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+        fill: false
+      }, {
+        label: 'Location B',
+        data: [20, 18, 25, 22, 30, 28, 35],
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+        fill: false
+      }]
+    };
+
+    // Create chart
+    const ctx = document.getElementById('flowRateChart').getContext('2d');
+    const flowRateChart = new Chart(ctx, {
+      type: 'line',
+      data: flowRateData,
+      options: {
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Time'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: 'Flow Rate'
+            }
+          }
+        }
+      }
+    });
+
+    {% comment %} async function fetchData() {
+      const response = await fetch('http://127.0.0.1:8000/graphData');
+      const data = await response.json();
+      console.log(data);
+      return data;
+    }
+  
+    async function createChart() {
+      const data = await fetchData();
+  
+      const ctx = document.getElementById('flowRateChart').getContext('2d');
+      const flowRateChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.labels,
+          datasets: data.datasets
+        },
+        options: {
+          scales: {
+            x: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Time'
+              }
+            },
+            y: {
+              display: true,
+              title: {
+                display: true,
+                text: 'Flow Rate'
+              }
+            }
+          }
+        }
+      });
+    }
+  
+    createChart(); {% endcomment %}
+  </script>
+</body>
+</html>

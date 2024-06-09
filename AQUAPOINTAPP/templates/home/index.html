@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AQUAPOINT</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+  .centered-content {
+    background-image: url('https://www.eiuk.org.uk/wp-content/uploads/2014/05/Tanzania-2014-Kiwere-construction-of-domestic-water-points-around-the-village.jpg');
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .container{
+    padding:15px;
+  }
+  input::placeholder {
+    color: #999; /* Placeholder text color */
+    font-size: small;
+    text-transform: capitalize; /* Placeholder text style */
+  }
+  .submit{
+    background-color: #0074D9 !important;
+    text-transform: uppercase;
+    border:none;
+    outline:none;
+    border-radius: 1px;
+  }
+  .submit:hover{
+    background-color: #000066 !important;
+    text-transform: uppercase;
+  }
+  
+  .navbar-nav .nav-link {
+    color: #0074D9 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #000066 !important;
+  }
+  .navbar-brand {
+    color: #0074D9 !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+  }
+  
+  .navbar-brand:hover {
+    color: #000066 !important;
+  }
+  
+  .heading h4{
+    text-transform:uppercase;
+    color:#2ECC40 !important;
+}
+.alert{
+    text-transform:uppercase;
+    font-size: small;
+} 
+.heading{
+    position: relative; /* Add this line */
+    z-index: 1; /* Add this line */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+}
+.form-container {
+  margin: auto;
+}
+.search-bar input[type="text"] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.search-bar button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+</style>
+</head>
+<body class="text-center bg-cover">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <a class="navbar-brand" href="{% url 'index' %}">AQUAPOINT</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'table1' %}">data table-1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'table2' %}">data table-2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'graph' %}">graph</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'map' %}">Map</a>
+      </li>
+      <!-- Add other navigation items here -->
+    </ul>
+  </div>
+</nav>
+
+<div class="centered-content">
+  {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+  {% endif %}
+    <div class="container">
+      <div class="container heading">
+        <h4>Expand Your Network: Add new Water Points</h4>
+      </div>
+      <div class="container form-container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <form action="{% url 'newPoint' %}" method="POST" >
+              {% csrf_token %}
+              <div class="form-group">
+                <input placeholder="Connection name example Dawasa" type="text" class="form-control" id="name" name="name" required>
+              </div>
+              <div class="form-group">
+                  <input placeholder="Connection number example 1243" type="number" class="form-control" id="number" name="number" required>
+              </div>
+              <div class="form-group">
+                <input placeholder="Lat and long Coordinates example -7.777, 307845" type="text" class="form-control" id="coordinates" name="coordinates" required>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-primary submit">Add new Water point</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div> 
+    </div>
+    
+</div>
+
+{% comment %} <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> {% endcomment %}
+<script>
+  // Automatically dismiss alert after 5 seconds
+  $(document).ready(function() {
+      setTimeout(function() {
+          $(".alert").alert('close');
+      }, 5000); // 5000 milliseconds = 5 seconds
+  });
+</script>
+</body>
+</html>
