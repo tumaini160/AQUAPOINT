@@ -84,21 +84,21 @@ WSGI_APPLICATION = 'AquaPoint.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'AQUAPOINT',
-#         'USER': 'postgres',
-#         'PASSWORD': '2402',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-DATABASE_URL="postgres://postgres.ansoalqopvuqsvmwejor:Tum@ini2402@aws-0-us-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
- 
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'AQUAPOINT',
+        'USER': 'postgres',
+        'PASSWORD': '2402',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+# DATABASE_URL="postgres://postgres.ansoalqopvuqsvmwejor:[Tum@ini2402]@aws-0-us-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+ 
+# DATABASES = {
+#     'default': dj_database_url.parse(DATABASE_URL)
+# }
 
 
 # Password validation
